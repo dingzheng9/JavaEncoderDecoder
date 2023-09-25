@@ -42,7 +42,7 @@ Compile and run the application:
 
 ```bash
 
-javac -d bin src/com/example/myapp/*.java
+javac -d bin src/com/example/myapp/Main.java
 java -cp bin com.example.myapp.Main
 
 ```
