@@ -1,31 +1,34 @@
 package com.example.myapp;
 
 import com.example.myapp.constants.TableConstants;
-import com.example.myapp.constants.Constants;
 import com.example.myapp.encoding.Decoder;
 import com.example.myapp.encoding.Encoder;
+import com.example.myapp.util.ShiftTableUtil;
+
+
+import java.util.Scanner;
 
 public class Main {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-		Encoder encoderB = new Encoder(TableConstants.REFERENCE_TABLE, TableConstants.SHIFT_TABLE_B);
-		String encodedB = encoderB.encode(Constants.input);
-		System.out.println("B" + encodedB);
+        System.out.print("Enter a character for shift: ");
+        char shiftChar = scanner.next().charAt(0);
+        
+        while (TableConstants.REFERENCE_TABLE.indexOf(Character.toUpperCase(shiftChar)) == -1) {
+            System.out.println("Character not in reference table. Please try again.");
+            System.out.print("Enter a character for shift: ");
+            shiftChar = scanner.next().charAt(0);
+        }
+        
+        String dynamicShiftTable = ShiftTableUtil.generateShiftTable(shiftChar);
+        Encoder dynamicEncoder = new Encoder(TableConstants.REFERENCE_TABLE, dynamicShiftTable);
+        String dynamicEncoded = dynamicEncoder.encode("HELLO WORLD");
+        System.out.println("Encoding: " + shiftChar + dynamicEncoded);
 
-		Decoder decoderB = new Decoder(TableConstants.REFERENCE_TABLE, TableConstants.SHIFT_TABLE_B);
-		String decodedB = decoderB.decode(encodedB);
-		System.out.println("Decoded (B): " + decodedB);
-
-		Encoder encoderF = new Encoder(TableConstants.REFERENCE_TABLE, TableConstants.SHIFT_TABLE_F);
-		String encodedF = encoderF.encode(Constants.input);
-		System.out.println("F" + encodedF);
-
-		Decoder decoderF = new Decoder(TableConstants.REFERENCE_TABLE, TableConstants.SHIFT_TABLE_F);
-		String decodedF = decoderF.decode(encodedF);
-		System.out.println("Decoded (F): " + decodedF);
-
-	}
-
+        Decoder dynamicDecoder = new Decoder(TableConstants.REFERENCE_TABLE, dynamicShiftTable);
+        String dynamicDecoded = dynamicDecoder.decode(dynamicEncoded);
+        System.out.println("Decoding (using shift char '" + shiftChar + "'): " + dynamicDecoded);
+    }
 }
