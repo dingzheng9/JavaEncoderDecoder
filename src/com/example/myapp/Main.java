@@ -1,6 +1,7 @@
 package com.example.myapp;
 
 import com.example.myapp.constants.TableConstants;
+import com.example.myapp.constants.Constants;
 import com.example.myapp.encoding.Decoder;
 import com.example.myapp.encoding.Encoder;
 import com.example.myapp.util.ShiftTableUtil;
@@ -24,7 +25,7 @@ public class Main {
         
         String dynamicShiftTable = ShiftTableUtil.generateShiftTable(shiftChar);
         Encoder dynamicEncoder = new Encoder(TableConstants.REFERENCE_TABLE, dynamicShiftTable);
-        String dynamicEncoded = dynamicEncoder.encode("HELLO WORLD");
+        String dynamicEncoded = dynamicEncoder.encode(Constants.input);
         System.out.println("Encoding: " + shiftChar + dynamicEncoded);
 
         Decoder dynamicDecoder = new Decoder(TableConstants.REFERENCE_TABLE, dynamicShiftTable);
